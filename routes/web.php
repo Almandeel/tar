@@ -21,4 +21,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('json/orders', 'OrderController@orders');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);

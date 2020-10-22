@@ -70,10 +70,6 @@
                         <div class="col-6">
 
                         </div>
-
-                        <div class="col-6">
-                            <a class="float-right mt-4" href="{{ route('register') }}">مستخدم جديد</a>
-                        </div>
                         <!-- /.col -->
                     </div>
                 </form>
