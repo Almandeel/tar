@@ -176,12 +176,11 @@ class UserController extends Controller
 
 
     public function profile(Request $request) {
-        
         $user = User::find(auth()->user()->id);
         
         request()->validate([
             'phone'         => ['required', 'string',  Rule::unique('users', 'phone')->ignore($user->id)],
-            'password'      => 'nullable | string | min:6   | confirmed',
+            'password'      => 'nullable | string | min:6',
         ]);
         
         $request_data = $request->except('password');
@@ -190,7 +189,7 @@ class UserController extends Controller
             $request_data['password'] = bcrypt($request->password);
         }
         
-        if(\Hash::check($request->old_password, $user->password) && $request->old_password != $request->password  ) {
+        if(\Hash::check($request->old_password, $user->password)) {
             $user->update($request_data);
             session()->flash('success', 'تمت العملية بنجاح');
         }else {
