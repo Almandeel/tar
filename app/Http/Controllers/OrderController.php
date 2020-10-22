@@ -1,0 +1,381 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Unit;
+use App\User;
+use App\Zone;
+use App\Order;
+use App\Entery;
+use App\Account;
+use App\Pricing;
+use App\Vehicle;
+use Notification;
+use App\OrderItem;
+use App\OrderTender;
+use App\Events\AddOrder;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Notifications\NewOrderNotification;
+// use FCM;
+
+class OrderController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if(auth()->user()->hasRole('superadmin')) {
+            // where user is  super admin or customer services
+            if($request->type == 'active') {
+                $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->orderBy('created_at', 'DESC')->get();
+            }
+
+            if($request->type == 'deactive') {
+                $orders = Order::whereIn('status', [Order::ORDER_DEFAULT, Order::ORDER_ACCEPTED])->orderBy('created_at', 'DESC')->get();
+            }
+
+            if($request->type == 'done') {
+                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->orderBy('created_at', 'DESC')->get();
+            }
+        }
+
+        if(auth()->user()->hasRole('customer')) {
+            // where user is customer
+            if($request->type == 'done') {
+                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('user_add_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
+            }
+            if($request->type == 'active') {
+                $orders = Order::whereNotIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('user_add_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
+            }
+        }
+
+        if(auth()->user()->hasRole('company')) {
+            // where user in company
+            if($request->type == 'deactive') {
+                $orders = Order::where('status', Order::ORDER_ACCEPTED)->where('company_id', null)->orderBy('created_at', 'DESC')->get();
+            }
+
+            if($request->type == 'done') {
+                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('company_id', auth()->user()->company_id)->orderBy('created_at', 'DESC')->get();
+            }
+
+            if($request->type == 'active') {
+                $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->where('company_id', auth()->user()->company_id)->orderBy('created_at', 'DESC')->get();
+            }
+            
+        }
+
+        if($request->type == '') {
+            $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->get();
+        }
+
+        return view('dashboard.orders.index', compact('orders'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $units      = Unit::all();
+        $zones      = Zone::all();
+        $vehicles   = Vehicle::all();
+        return view('dashboard.orders.create', compact('units', 'zones', 'vehicles'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'              => 'required | string | max:45',  
+            'phone'             => 'required | string | max:255',
+            'from'              => 'required | string',
+            'to'                => 'required | string',
+            'order_type'        => 'required | string',
+        ]);
+
+        $order = Order::create([
+            'type'          => $request->order_type,
+            'name'          => $request->name,
+            'phone'         => $request->phone,
+            'from'          => $request->from,
+            'to'            => $request->to,
+            'shipping_date' => $request->shipping_date,
+            'savior_name'   => $request->savior_name,
+            'savior_phone'  => $request->savior_phone,
+            'user_add_id'   => auth()->user()->id,
+        ]);
+
+        for ($index=0; $index < count($request->quantity); $index++) { 
+            $order_items = OrderItem::create([
+                'order_id'  => $order->id,
+                'type'      => $request->item_type[$index],
+                'quantity'  => $request->quantity[$index],
+                'weight'    => $request->weight[$index],
+            ]);
+        }
+
+        // broadcast(new AddOrder($order));
+
+        return redirect()->route('orders.show', $order->id)->with('success', 'تمت العملية بنجاح');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Order $order)
+    {
+        $tenders = [];
+        if(auth()->user()->company_id) {
+            $tenders = OrderTender::pluck('company_id')->toArray();
+        }
+        return view('dashboard.orders.show', compact('order', 'tenders'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Order $order)
+    {
+        $units      = Unit::all();
+        $zones      = Zone::all();
+        $vehicles   = Vehicle::all();
+        return view('dashboard.orders.edit', compact('units', 'zones', 'vehicles', 'order'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Order $order)
+    {
+        if($request->type == 'accepted') {
+            $order->update([
+                'status' => Order::ORDER_ACCEPTED,
+                'user_accepted_id' => auth()->user()->id,
+                'accepted_at' => date('Y-m-d H:I'),
+            ]);
+
+            $recipient_companies = User::where('company_id', '!=', null)->pluck('fcm_token')->toArray();
+
+            fcm() 
+            ->to($recipient_companies)
+            ->priority('high')
+            ->timeToLive(0)
+            ->notification([
+                'title' => 'طلب جديد',
+                'body' => 'تم اضافة طلب جديد',
+            ])
+            ->send();
+
+            $recipient_user = User::where('id', $order->user_add_id)->pluck('fcm_token')->toArray();
+
+            fcm() 
+            ->to($recipient_user)
+            ->priority('high')
+            ->timeToLive(0)
+            ->notification([
+                'title' => 'تمت الموافقة على طلبك',
+                'body' => 'تمت الموافقة على طلبك رقم ' . $order->id,
+            ])
+            ->send();
+
+            return back()->with('success', 'تمت العملية بنجاح');
+        }
+
+        if($request->type == 'tender'){
+            $tender = OrderTender::create([
+                'order_id'      => $order->id,
+                'company_id'    => auth()->user()->company_id,
+                'price'         => $request->price,
+                'duration'      => $request->duration,
+            ]);
+
+            $recipients = $order->addedOrder->pluck('fcm_token')->toArray();
+
+            fcm()
+            ->to($recipients)
+            ->priority('high')
+            ->timeToLive(0)
+            ->notification([
+                'title' => 'لديك عرض جديد',
+                'body' => 'تم اضافة عرض جديد في الطلب رقم ' . $order->id,
+            ])
+            ->send();
+
+            return back()->with('success', 'تمت العملية بنجاح');
+        }
+
+        if($request->type == 'received'){
+            $pricing = Pricing::first();
+            $net = ($order->tenders->where('company_id', $request->company_id)->first()->price * $pricing->amount) / 100;
+            $order->update([
+                'status'        => Order::ORDER_IN_SHIPPING,
+                'company_id'    => $request->company_id,
+                'received_at'   => date('Y-m-d H:I'),
+            ]);
+
+            $order->update([
+                'amount' => $order->tenders->where('company_id', $request->company_id)->first()->price,
+                'ratio'  => $pricing->amount,
+                'net'    => $net,
+            ]);
+
+            $entries = Entery::create([
+                'amount'    => $net,
+                'from_id'   => $order->company->account_id,
+                'to_id'     => Account::ACCOUNT_SAFE,
+                'details'   => 'عمولة من الطلب رقم ' . $order->id,
+                'type'      => Entery::TYPE_INCOME,
+            ]);
+
+            $recipients = $order->company->user->pluck('fcm_token')->toArray();
+
+            fcm() 
+            ->to($recipients)
+            ->priority('high')
+            ->timeToLive(0)
+            ->notification([
+                'title' => 'تمت الموافقة على عرضك',
+                'body' => 'تمت الموافقة على عرضك في الطلب رقم ' . $order->id,
+            ])
+            ->send();
+            
+            return back()->with('success', 'تمت العملية بنجاح');
+        }
+
+        if($request->type == 'shipping'){
+            $order->update([
+                'status'        => Order::ORDER_IN_ROAD,
+            ]);
+            return back()->with('success', 'تمت العملية بنجاح');
+        }
+
+        if($request->type == 'road'){
+            $order->update([
+                'status'        => Order::ORDER_DONE,
+                'delivered_at' => date('Y-m-d H:I'),
+            ]);
+            return back()->with('success', 'تمت العملية بنجاح');
+        }
+
+        $request->validate([
+            'name'              => 'required | string | max:45',  
+            'phone'             => 'required | string | max:255',
+            'from'              => 'required | string',
+            'to'                => 'required | string',
+            'order_type'        => 'required | string',
+        ]);
+    
+        $order->update([
+            'type'          => $request->order_type,
+            'name'          => $request->name,
+            'phone'         => $request->phone,
+            'from'          => $request->from,
+            'to'            => $request->to,
+            'savior_name'   => $request->savior_name,
+            'savior_phone'  => $request->savior_phone,
+            'shipping_date' => $request->shipping_date,
+        ]);
+
+        foreach ($order->items as $item) {
+            $item->delete();
+        }
+
+        for($index=0; $index < count($request->quantity); $index++) {
+            $order_items = OrderItem::create([
+                'order_id'  => $order->id,
+                'type'      => $request->item_type[$index],
+                'quantity'  => $request->quantity[$index],
+                'weight'    => $request->weight[$index],
+            ]);
+        }
+    
+        return redirect()->route('orders.show', $order->id)->with('success', 'تمت العملية بنجاح');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Order $order)
+    {
+        $order->update([
+            'status' => Order::$status_cancel
+        ]);
+
+        return back();
+    }
+
+
+    public function orders(Request $request) {
+        if(auth()->user()->hasRole('superadmin')) {
+            // where user is  super admin or customer services
+            if($request->type == 'active') {
+                $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->get();
+            }
+
+            if($request->type == 'deactive') {
+                $orders = Order::whereIn('status', [Order::ORDER_DEFAULT, Order::ORDER_ACCEPTED])->get();
+            }
+
+            if($request->type == 'done') {
+                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->get();
+            }
+        }
+
+        if(auth()->user()->hasRole('customer')) {
+            // where user is customer
+            if($request->type == 'done') {
+                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('user_add_id', auth()->user()->id)->get();
+            }
+            if($request->type == 'active') {
+                $orders = Order::whereNotIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('user_add_id', auth()->user()->id)->get();
+            }
+        }
+
+        if(auth()->user()->hasRole('company')) {
+            // where user in company
+            if($request->type == 'deactive') {
+                $orders = Order::where('status', Order::ORDER_ACCEPTED)->where('company_id', null)->get();
+            }
+
+            if($request->type == 'done') {
+                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('company_id', auth()->user()->company_id)->get();
+            }
+
+            if($request->type == 'active') {
+                $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->where('company_id', auth()->user()->company_id)->get();
+            }
+            
+        }
+
+        if($request->type == '') {
+            $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->get();
+        }
+
+        return response()->json($orders);
+    }
+}
