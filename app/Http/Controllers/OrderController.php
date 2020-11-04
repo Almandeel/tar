@@ -28,7 +28,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        if(auth()->user()->hasRoles(['superadmin', 'services'])) {
+        if(auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('services')) {
             // where user is  super admin or customer services
             if($request->type == 'active') {
                 $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->orderBy('created_at', 'DESC')->get();
