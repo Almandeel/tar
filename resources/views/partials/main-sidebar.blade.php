@@ -183,6 +183,62 @@
                 </li>
             </ul>
             @endrole
+            @role('services')
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                @permission('orders-read')
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link {{ (request()->segment(1) == 'orders') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-list"></i>
+                            <p>
+                                الطلبات
+                                <i class="fas fa-angle-left left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}?type=deactive" class="nav-link {{ (request()->segment(2) == 'type=deactive') ? 'active' : '' }}">
+                                    <i class="fa fa-list nav-icon"></i>
+                                    <p>الطلبات الجديدة</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}?type=active" class="nav-link">
+                                    <i class="fa fa-list nav-icon"></i>
+                                    <p>الطلبات الحالية</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('orders.index') }}?type=done" class="nav-link">
+                                    <i class="fa fa-list nav-icon"></i>
+                                    <p>الطلبات المنتهية</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endpermission
+                @permission('companies-read')
+                    <li class="nav-item">
+                        <a href="{{ route('companies.index') }}" class="nav-link {{ (request()->segment(1) == 'companies') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-home"></i>
+                            <p>
+                                الشركات
+                            </p>
+                        </a>
+                    </li>
+                @endpermission
+                @permission('users-read')
+                    <li class="nav-item">
+                        <a href="{{ route('users.index') }}" class="nav-link {{ (request()->segment(1) == 'users') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                @lang('global.users')
+                            </p>
+                        </a>
+                    </li>
+                @endpermission
+            </ul>
+        @endrole
         </nav>
         <!-- /.sidebar-menu -->
     </div>

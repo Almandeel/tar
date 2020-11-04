@@ -30,7 +30,7 @@ return [
         ],
 
         'services' => [
-            'order'                => 'c,r,u',
+            'orders'                => 'c,r,u',
         ],
 
     ],
