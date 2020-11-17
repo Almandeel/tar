@@ -121,9 +121,9 @@
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title text-right" id="profileModalLabel">الملف الشخصي</h5>
-                    {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
-                    </button> --}}
+                    </button>
                     </div>
                     <form action="{{ route('users.profile') }}" method="post">
                         <div class="modal-body">
