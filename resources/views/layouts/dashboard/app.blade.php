@@ -275,6 +275,33 @@
                 })
             })
 
+            $(document).on('click', '.delete', function(e){
+                e.preventDefault()
+                let that = $(this);
+                Swal.fire({
+                    title: '  هل متاكد من الغاء الطلب ؟ ',
+                    text: "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'لا',
+                    confirmButtonText: 'نعم',
+                }).then((result) => {
+                    if (result.value) {
+                        if(that.data('callback')){
+                            executeFunctionByName(that.data('callback'), window)
+                        }
+                        else if(that.data('form')){
+                            $(that.data('form')).submit()
+                        }
+                        else{
+                            $('form#deleteOrder').submit()
+                        }
+                    }	
+                })
+            })
+
             @foreach (['success' => 'Success', 'error' => 'Error', 'warning' => 'Warning'] as $icon => $title)
                 @if (session()->has($icon))
                     Swal.fire({
