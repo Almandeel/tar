@@ -28,7 +28,7 @@
                     </form>
                 @endpermission
                 @permission('orders-delete')
-                    <form id="deleteOrder"  style="display: inline-block" action="{{ route('orders.destroy', $order->id) }}" method="post">
+                    <form id="deleteOrder"  style="display: inline-block;float:left" action="{{ route('orders.destroy', $order->id) }}" method="post">
                         @csrf 
                         @method('delete')
                         <button class="btn btn-danger btn-sm delete"><i class="fa fa-trash">الغاء </i></button>
