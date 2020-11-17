@@ -326,7 +326,7 @@ class OrderController extends Controller
             'status' => Order::ORDER_CANCEL
         ]);
 
-        return back();
+        return back()->with('success', 'تمت العملية بنجاح');;
     }
 
 
