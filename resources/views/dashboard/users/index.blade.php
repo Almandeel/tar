@@ -32,6 +32,8 @@
                     <tr>
                         <th>الاسم</th>
                         <th>رقم الهاتف</th>
+                        <th>كود الدولة</th>
+                        <th>اسم الشركة</th>
                         <th>خيارات</th>
                     </tr>
                 </thead>
@@ -40,6 +42,8 @@
                         <tr>
                             <td>{{ $u->name }}</td>
                             <td>{{ $u->phone }}</td>
+                            <td>{{ $u->code }}</td>
+                            <td>{{ $u->company->name ?? '-' }}</td>
                             <td>
                                 {{-- @permission('users-read')
                                     <a class="btn btn-info btn-xs" href="{{ route('users.show', $u->id) }}"><i class="fa fa-eye"></i> عرض </a>
