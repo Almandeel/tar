@@ -291,11 +291,7 @@
                     if (result.value) {
                         if(that.data('callback')){
                             executeFunctionByName(that.data('callback'), window)
-                        }
-                        else if(that.data('form')){
-                            $(that.data('form')).submit()
-                        }
-                        else{
+                        }else{
                             $('form#deleteOrder').submit()
                         }
                     }	
