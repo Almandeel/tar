@@ -19,13 +19,20 @@
 
             @if($order->status == \App\Order::ORDER_DEFAULT)
                 @permission('orders-update')
-                <form class="float-left" style="display: inline-block; margin:0 1%" action="{{ route('orders.update', $order->id) }}?type=accepted" method="post">
-                    @csrf 
-                    @method('PUT')
-                    <button type="submit" class="btn btn-success btn-sm">
-                        <i class="fa fa-check"> موافقة</i>
-                    </button>
-                </form>
+                    <form class="float-left" style="display: inline-block; margin:0 1%" action="{{ route('orders.update', $order->id) }}?type=accepted" method="post">
+                        @csrf 
+                        @method('PUT')
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="fa fa-check"> موافقة</i>
+                        </button>
+                    </form>
+                @endpermission
+                @permission('orders-delete')
+                    <form id="deleteOrder"  style="display: inline-block" action="{{ route('orders.destroy', $order->id) }}" method="post">
+                        @csrf 
+                        @method('delete')
+                        <button class="btn btn-danger btn-sm delete"><i class="fa fa-trash">الغاء </i></button>
+                    </form>
                 @endpermission
             @endif
 
