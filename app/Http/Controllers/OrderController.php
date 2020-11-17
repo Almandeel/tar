@@ -322,6 +322,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        dd($order);
         $order->update([
             'status' => Order::ORDER_CANCEL
         ]);
