@@ -169,7 +169,7 @@
             $('#datatable').DataTable({
                 "paging": false,
                 "lengthChange": false,
-                "searching": true,
+                "searching": false,
                 "ordering": false,
                 "info": false,
                 "autoWidth": false,

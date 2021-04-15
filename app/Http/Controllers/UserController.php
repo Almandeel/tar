@@ -25,9 +25,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where('company_id', null)->where('id', '!=', auth()->user()->id)->orderBy('created_at')->paginate(10);
+        if($request->search) {
+            $users = User::where('name', 'like', '%' . $request->search . '%' )->orWhere('phone', 'like', '%' . $request->search . '%')->paginate();
+        }else {
+            $users = User::where('company_id', null)->where('id', '!=', auth()->user()->id)->orderBy('created_at')->paginate(10);
+        }
         return view('dashboard.users.index',compact('users'));
     }
 

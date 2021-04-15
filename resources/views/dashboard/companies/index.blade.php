@@ -13,9 +13,23 @@
     <div class="card">
         <div class="card-header">
             @permission('companies-create')
-                <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-primary btn-sm pull-left company" data-toggle="modal" data-target="#CompanyModal">
-                    <i class="fa fa-user-plus"> اضافة</i>
-                </button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-primary btn-sm pull-left company" data-toggle="modal" data-target="#CompanyModal">
+                            <i class="fa fa-user-plus"> اضافة</i>
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <form style="display:inline-block" action="#" method="get">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" name="search" placeholder="بحث" aria-label="بحث" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit">بحث</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             @endpermission
         </div>
         <div class="card-body">
