@@ -31,47 +31,49 @@ class OrderController extends Controller
         if(auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('services')) {
             // where user is  super admin or customer services
             if($request->type == 'active') {
-                $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->orderBy('created_at', 'DESC')->get();
+                $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->orderBy('created_at', 'DESC');
             }
 
             if($request->type == 'deactive') {
-                $orders = Order::whereIn('status', [Order::ORDER_DEFAULT, Order::ORDER_ACCEPTED])->orderBy('created_at', 'DESC')->get();
+                $orders = Order::whereIn('status', [Order::ORDER_DEFAULT, Order::ORDER_ACCEPTED])->orderBy('created_at', 'DESC');
             }
 
             if($request->type == 'done') {
-                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->orderBy('created_at', 'DESC')->get();
+                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->orderBy('created_at', 'DESC');
             }
         }
 
         if(auth()->user()->hasRole('customer')) {
             // where user is customer
             if($request->type == 'done') {
-                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('user_add_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
+                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('user_add_id', auth()->user()->id)->orderBy('created_at', 'DESC');
             }
             if($request->type == 'active') {
-                $orders = Order::whereNotIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('user_add_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
+                $orders = Order::whereNotIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('user_add_id', auth()->user()->id)->orderBy('created_at', 'DESC');
             }
         }
 
         if(auth()->user()->hasRole('company')) {
             // where user in company
             if($request->type == 'deactive') {
-                $orders = Order::where('status', Order::ORDER_ACCEPTED)->where('company_id', null)->orderBy('created_at', 'DESC')->get();
+                $orders = Order::where('status', Order::ORDER_ACCEPTED)->where('company_id', null)->orderBy('created_at', 'DESC');
             }
 
             if($request->type == 'done') {
-                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('company_id', auth()->user()->company_id)->orderBy('created_at', 'DESC')->get();
+                $orders = Order::whereIn('status', [Order::ORDER_DONE, Order::ORDER_CANCEL])->where('company_id', auth()->user()->company_id)->orderBy('created_at', 'DESC');
             }
 
             if($request->type == 'active') {
-                $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->where('company_id', auth()->user()->company_id)->orderBy('created_at', 'DESC')->get();
+                $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->where('company_id', auth()->user()->company_id)->orderBy('created_at', 'DESC');
             }
             
         }
 
         if($request->type == '') {
-            $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD])->get();
+            $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD]);
         }
+
+        $orders = $orders->paginate(20);
 
         return view('dashboard.orders.index', compact('orders'));
     }

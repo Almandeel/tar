@@ -22,7 +22,7 @@
             @endif
         </div>
         <div id="app" class="card-body">
-                <table style="width:100%" id="datatable" class="table table-bordered table-hover text-center">
+            <table style="width:100%" id="datatable" class="table table-bordered table-hover text-center">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -73,21 +73,36 @@
                             </td>
                             <td>{{ $order->created_at->format('Y-m-d H:I') }}</td>
                             <td>
-                                @permission('orders-read')
-                                    <a  href="{{ route('orders.show', $order->id) }}" class="btn btn-default btn-sm">
-                                        <i class="fa fa-eye"> عرض</i>
-                                    </a>
-                                @endpermission
-                                @permission('orders-update')
-                                    <a  href="{{ route('orders.edit', $order->id) }}" class="btn btn-warning btn-sm">
-                                        <i class="fa fa-edit"> تعديل</i>
-                                    </a>
+                                @permission(['orders-read', 'orders-update'])
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        المزيد
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        @permission('orders-read')
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('orders.show', $order->id) }}">
+                                                    <i class="fa fa-eye"> عرض</i>
+                                                </a>
+                                            </li>
+                                        @endpermission
+                                        @permission('orders-update')
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('orders.edit', $order->id) }}">
+                                                    <i class="fa fa-edit"> تعديل</i>
+                                                </a>
+                                            </li>
+                                        @endpermission
+                                    </ul>
+                                </div>
                                 @endpermission
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            {{ $orders->appends(request()->all())->links() }}
             {{-- <order-component></order-component> --}}
         </div>
     </div>

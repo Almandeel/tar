@@ -167,12 +167,12 @@
     <script type="application/javascript">
         $(function () {
             $('#datatable').DataTable({
-                "paging": true,
-                "lengthChange": true,
+                "paging": false,
+                "lengthChange": false,
                 "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true,
+                "ordering": false,
+                "info": false,
+                "autoWidth": false,
                 "responsive": true,
                 "bDestroy": true,
                 'oLanguage'    : {
