@@ -73,7 +73,7 @@ class OrderController extends Controller
             $orders = Order::whereIn('status', [Order::ORDER_IN_SHIPPING, Order::ORDER_IN_ROAD]);
         }
 
-        $orders = $orders->paginate(20);
+        $orders = $orders->paginate(10);
 
         return view('dashboard.orders.index', compact('orders'));
     }

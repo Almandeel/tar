@@ -32,8 +32,6 @@
                         <th>رقم الهاتف</th>
                         @endrole
                         <th>نوع الشحن</th>
-                        <th>منطقة الشحن</th>
-                        <th>منطقة التفريغ</th>
                         <th>الحالة</th>
                         <th>تاريخ الانشاء</th>
                         <th>خيارات</th>
@@ -49,8 +47,6 @@
                             <td>{{ $order->phone }}</td>
                             @endrole
                             <td>{{ $order->type }}</td>
-                            <td>{{ $order->from }}</td>
-                            <td>{{ $order->to }}</td>
                             <td>
                                 @if($order->status == \App\Order::ORDER_DEFAULT)
                                     في الانتظار
