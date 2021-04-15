@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('id', '!=', auth()->user()->id)->orderBy('created_at');
+        $users = User::where('company_id', null)->where('id', '!=', auth()->user()->id)->orderBy('created_at')->paginate(10);
         return view('dashboard.users.index',compact('users'));
     }
 

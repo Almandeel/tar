@@ -40,12 +40,20 @@
                                 @endpermission
                                 @permission('companies-update')
                                     <button class="btn btn-warning btn-xs company update " data-toggle="modal" data-target="#CompanyModal" data-action="{{ route('companies.update', $company->id) }}" data-name="{{ $company->name }}" data-phone="{{ $company->phone }}" data-address="{{ $company->address }}"><i class="fa fa-edit"></i> تعديل </button>
+
+
+                                    <form style="display:inline-block" action="{{ route('users.update', $company->user->id) }}?type=status" method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <button class="btn btn-{{ $company->user->status ? 'danger' : 'success' }} btn-xs" type="submit"><i class="fa fa-{{ $company->user->status ? 'times' : 'check' }}"></i> {{$company->user->status ? 'الغاء التفعيل' : 'تفعيل' }} </a>
+                                    </form>
                                 @endpermission
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            {{ $companies->links() }}
         </div>
     </div>
 @endsection

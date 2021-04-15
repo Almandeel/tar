@@ -100,7 +100,7 @@
                     @permission('pricings-read')
                         <li class="nav-item">
                             <a href="{{ route('pricings.index') }}" class="nav-link {{ (request()->segment(1) == 'pricings') ? 'active' : '' }}">
-                                <i class="nav-icon fab fa-dollar"></i>
+                                <i class="nav-icon fa fa-book"></i>
                                 <p>
                                     الاسعار
                                 </p>
