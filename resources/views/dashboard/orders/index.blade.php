@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.app', ['datatable' => true])
+@extends('layouts.dashboard.app', ['datatable' => true , 'modals' => ['show_order']])
 
 @section('title')
     الطلبات
@@ -76,6 +76,26 @@
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        @permission('orders-read')
+                                            <li>
+                                                <a
+                                                    href="#" 
+                                                    style="display:inline-block; margin-left:1%"
+                                                    class="dropdown-item show-order" 
+                                                    data-toggle="modal" 
+                                                    data-target="#showOrder"
+                                                    data-id="{{ $order->id }}"
+                                                    data-name="{{ $order->name }}"
+                                                    data-phone="{{ $order->phone }}"
+                                                    data-type="{{ $order->type }}"
+                                                    data-from="{{ $order->from }}"
+                                                    data-to="{{ $order->to }}"
+                                                    data-items="{{ $order->items }}"
+                                                    >
+                                                    <i class="fa fa-eye"> نظرة سريعة</i>
+                                                </a>
+                                            </li>
+                                        @endpermission
                                         @permission('orders-read')
                                             <li>
                                                 <a class="dropdown-item" href="{{ route('orders.show', $order->id) }}">
