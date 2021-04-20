@@ -28,7 +28,7 @@
                         <th>#</th>
                         <th>رقم الطلب</th>
                         @role(['superadmin', 'services'])
-                        <th>الاسم</th>
+                        {{-- <th>الاسم</th> --}}
                         <th>رقم الهاتف</th>
                         @endrole
                         <th>نوع الشحن</th>
@@ -43,7 +43,7 @@
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $order->id }}</td>
                             @role(['superadmin', 'services'])
-                            <td>{{ $order->name }}</td>
+                            {{-- <td>{{ $order->name }}</td> --}}
                             <td>{{ $order->phone }}</td>
                             @endrole
                             <td>{{ $order->type }}</td>
