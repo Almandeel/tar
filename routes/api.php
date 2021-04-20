@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     Route::post('customer/details', 'Api\CustomerController@showOrder');
     Route::post('customer/update', 'Api\CustomerController@updateOrder');
     Route::post('customer/pricing', 'Api\CustomerController@pricing');
-    Route::apiResource('/oil', 'OilController');
+    Route::apiResource('customer/oil', 'OilController');
 
     // company api
     Route::post('company/profile', 'Api\CompanyController@profile');

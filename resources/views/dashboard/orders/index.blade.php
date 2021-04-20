@@ -21,7 +21,7 @@
             @endpermission
             @endif
         </div>
-        <div id="app" class="card-body">
+        <div id="app" class="card-body table-responsive">
             <table style="width:100%" id="datatable" class="table table-bordered table-hover text-center">
                 <thead>
                     <tr>

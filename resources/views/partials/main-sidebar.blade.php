@@ -73,7 +73,7 @@
                             </a>
                         </li>
                     @endpermission
-                    @permission('vehicles-read')
+                    {{-- @permission('vehicles-read')
                         <li class="nav-item">
                             <a href="{{ route('vehicles.index') }}" class="nav-link {{ (request()->segment(1) == 'vehicles') ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-car"></i>
@@ -102,7 +102,7 @@
                                 </p>
                             </a>
                         </li>
-                    @endpermission
+                    @endpermission --}}
                     @permission('pricings-read')
                         <li class="nav-item">
                             <a href="{{ route('pricings.index') }}" class="nav-link {{ (request()->segment(1) == 'pricings') ? 'active' : '' }}">
