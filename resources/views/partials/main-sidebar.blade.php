@@ -54,6 +54,12 @@
                                         <p>الطلبات المنتهية</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('oils.index') }}" class="nav-link">
+                                        <i class="fa fa-list nav-icon"></i>
+                                        <p>طلبات الوقود</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     @endpermission

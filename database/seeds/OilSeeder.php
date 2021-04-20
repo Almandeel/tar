@@ -1,9 +1,8 @@
 <?php
 
-use App\Pricing;
 use Illuminate\Database\Seeder;
 
-class PricingSeeder extends Seeder
+class OilSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +11,6 @@ class PricingSeeder extends Seeder
      */
     public function run()
     {
-        
-        $ratio = Pricing::firstOrCreate(['name' => 'نسبة التوصيل', 'amount' => 5]);
+        //
     }
 }

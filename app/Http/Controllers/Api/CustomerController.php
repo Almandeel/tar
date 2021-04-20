@@ -134,4 +134,10 @@ class CustomerController extends Controller
         return response()->json(['message' => 'success'], 200);
     }
 
+    public function pricing()
+    {
+        $pricing = Pricing::where('id', '!=', 1)->get();
+        return response()->json($pricing);
+    }
+
 }

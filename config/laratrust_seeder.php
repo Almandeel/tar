@@ -16,6 +16,7 @@ return [
             'pricings'              => 'c,r,u,d',
             'enteries'              => 'c,r,u,d,p',
             'payments'              => 'c,r,u,d,p',
+            'oils'                  => 'c,r,u,d,p',
             'dashboard'             => 'r',
         ],
 
@@ -46,6 +47,7 @@ return [
             'pricings'              => 'c,r,u,d',
             'enteries'              => 'c,r,u,d,p',
             'payments'              => 'c,r,u,d,p',
+            'oils'                  => 'c,r,u,d,p',
             'dashboard'             => 'r',
         ],
     ],
