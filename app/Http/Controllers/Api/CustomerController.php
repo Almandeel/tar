@@ -63,7 +63,7 @@ class CustomerController extends Controller
             'shipping_date' => $request->shipping_date,
             'savior_name'   => $request->savior_name,
             'savior_phone'  => $request->savior_phone,
-            'car_type'      => $request->car_type,
+            // 'car_type'      => $request->car_type,
             'user_add_id'   => auth('api')->user()->id,
         ]);
 
@@ -73,6 +73,8 @@ class CustomerController extends Controller
                 'type'      => $request->item_type[$index],
                 'quantity'  => $request->quantity[$index],
                 'weight'    => $request->weight[$index],
+                'unit'      => $request->unit[$index],
+                'car_type'  => $request->car_type[$index],
             ]);
         }
 
