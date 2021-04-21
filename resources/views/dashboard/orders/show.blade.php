@@ -145,12 +145,14 @@
 
             <table class="table table-bordered table-hover text-center">
                 <thead>
-                    <tr><th colspan="4">تفاصيل الطلب</th></tr>
+                    <tr><th colspan="6">تفاصيل الطلب</th></tr>
                     <tr>
                         <th>#</th>
                         <th>النوع</th>
                         <th>العدد</th>
                         <th>الوزن</th>
+                        <th>الوحدة</th>
+                        <th>نوع العربة</th>
                     </tr>
                 </thead>
                 @foreach ($order->items as $index=>$item)
@@ -159,6 +161,8 @@
                         <td>{{ $item->type }}</td>
                         <td>{{ $item->quantity }}</td>
                         <td>{{ $item->weight }}</td>
+                        <td>{{ $item->unit }}</td>
+                        <td>{{ $item->car_type }}</td>
                     </tr>
                 @endforeach
             </table>

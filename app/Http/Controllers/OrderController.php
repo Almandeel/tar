@@ -125,6 +125,8 @@ class OrderController extends Controller
                 'type'      => $request->item_type[$index],
                 'quantity'  => $request->quantity[$index],
                 'weight'    => $request->weight[$index],
+                'unit'      => $request->unit[$index],
+                'car_type'  => $request->car_type[$index],
             ]);
         }
 

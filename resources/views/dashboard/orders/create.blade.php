@@ -149,16 +149,12 @@
                 <input type="number" name="weight[]" class="form-control" placeholder="الوزن">
             </td>
             <td>
-                <select class="custom-select form-control"  name="unit[]">
-                    @foreach($units as $unit)
-                        <option value="{{ $unit->id }}">{{ $unit->name }}</option>
-                    @endforeach
-                </select>
+                <input type="text" name="unit[]" class="form-control" placeholder="الوحدة">
             </td>
             <td>
-                <select class="custom-select form-control"  name="item_type[]">
-                    <option value="شبك 40 طن">شبك 40 طن</option>
-                    <option value="شبك 50 طن">شبك 50 طن</option>
+                <select class="custom-select form-control"  name="car_type[]">
+                    <option value="شبك">شبك</option>
+                    <option value="سطحة">سطحة</option>
                 </select>
             </td>
         </tr>

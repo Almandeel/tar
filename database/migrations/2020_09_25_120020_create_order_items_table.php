@@ -17,9 +17,10 @@ class CreateOrderItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->string('type')->nullable();
+            $table->string('car_type')->nullable();
             $table->integer('quantity')->nullable();
             $table->integer('weight')->nullable();
-            $table->unsignedBigInteger('unit_id')->nullable();
+            $table->string('unit')->nullable();
             $table->timestamps();
 
             $table->foreign('order_id')->references('id')->on('orders')
