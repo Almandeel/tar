@@ -93,7 +93,6 @@
                             </a>
                         </li>
                     @endpermission
-                    {{--
                     @permission('units-read')
                         <li class="nav-item">
                             <a href="{{ route('units.index') }}" class="nav-link {{ (request()->segment(1) == 'units') ? 'active' : '' }}">
@@ -103,7 +102,7 @@
                                 </p>
                             </a>
                         </li>
-                    @endpermission --}}
+                    @endpermission
                     @permission('pricings-read')
                         <li class="nav-item">
                             <a href="{{ route('pricings.index') }}" class="nav-link {{ (request()->segment(1) == 'pricings') ? 'active' : '' }}">
