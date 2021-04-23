@@ -20,6 +20,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('reports/order/{id}', 'ReportController@order')->name('reports.order');
     Route::get('json/orders', 'OrderController@orders');
+
+    //notifications 
+    Route::get('notifications', 'NotificationController@index');
+
 });
 
 Auth::routes(['register' => false]);

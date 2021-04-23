@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\User;
 use App\Order;
+use Notification;
 use App\OrderTender;
+use App\Events\NewTender;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\NewTenderNotification;
 
 class CompanyController extends Controller
 {
@@ -98,6 +102,12 @@ class CompanyController extends Controller
             'body' => 'تم اضافة عرض جديد في الطلب رقم ' . $order->id,
         ])
         ->send();
+
+        broadcast(new NewTender($order));
+
+        $users = User::wherePermissionIs(['orders-delete', 'orders-update'])->get();
+
+        Notification::send($users, new NewTenderNotification($order));
 
         return response()->json(['message' => 'success'], 200);
     }

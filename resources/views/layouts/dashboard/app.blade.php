@@ -12,6 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('dashboard/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- overlayScrollbars -->
@@ -154,6 +155,7 @@
         
         
     @if(isset($datatable))
+
     <!-- DataTables -->
     <link type="application/javascript" rel="stylesheet" href="{{ asset('dashboard') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link  type="application/javascript" rel="stylesheet" href="{{ asset('dashboard') }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -207,6 +209,7 @@
     <!-- ./wrapper -->
 
     <!-- REQUIRED SCRIPTS -->
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Bootstrap -->
     <script  src="{{ asset('dashboard') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -244,6 +247,7 @@
     <!-- Sweet Alert 2 -->
     <link rel="stylesheet" href="{{ asset('dashboard/plugins/sweetalert2/sweetalert2.min.css') }}">
     <script  src="{{ asset('dashboard/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
+
 
     <script >
         $(function () {
@@ -309,6 +313,8 @@
             @endforeach
         });
     </script>
+
+
 
 
 

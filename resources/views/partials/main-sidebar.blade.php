@@ -43,6 +43,12 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="{{ route('orders.index') }}?type=accepted" class="nav-link {{ (request()->segment(2) == 'type=accepted') ? 'active' : '' }}">
+                                        <i class="fa fa-list nav-icon"></i>
+                                        <p>الطلبات  الموافق عليها</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="{{ route('orders.index') }}?type=active" class="nav-link">
                                         <i class="fa fa-list nav-icon"></i>
                                         <p>الطلبات الحالية</p>

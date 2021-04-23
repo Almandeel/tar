@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
 
-class NewOrderNotification extends Notification
+class NewTenderNotification extends Notification
 {
     use Queueable;
 
@@ -46,7 +46,7 @@ class NewOrderNotification extends Notification
     {
         return [
             'title' => $this->order->addedOrder->name,
-            'body' => 'تم اضافة طلب جديد',
+            'body' => 'تم اضافة عرض جديد',
             'action_url' => '/orders' . '/'. $this->order->id ,
             'created' => Carbon::now()->toIso8601String()
         ];

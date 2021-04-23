@@ -14,6 +14,7 @@ use Notification;
 use App\OrderItem;
 use App\OrderTender;
 use App\Events\AddOrder;
+use App\Events\NewOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewOrderNotification;
@@ -35,7 +36,11 @@ class OrderController extends Controller
             }
 
             if($request->type == 'deactive') {
-                $orders = Order::whereIn('status', [Order::ORDER_DEFAULT, Order::ORDER_ACCEPTED])->orderBy('created_at', 'DESC');
+                $orders = Order::whereIn('status', [Order::ORDER_DEFAULT])->orderBy('created_at', 'DESC');
+            }
+
+            if($request->type == 'accepted') {
+                $orders = Order::whereIn('status', [Order::ORDER_ACCEPTED])->orderBy('created_at', 'DESC');
             }
 
             if($request->type == 'done') {
@@ -132,6 +137,12 @@ class OrderController extends Controller
 
         // broadcast(new AddOrder($order));
 
+        broadcast(new NewOrder($order));
+
+        $users = User::wherePermissionIs(['delete-orders', 'update-orders'])->get();
+
+        Notification::send($users, new NewOrderNotification($order));
+
         return redirect()->route('orders.show', $order->id)->with('success', 'تمت العملية بنجاح');
     }
 
@@ -143,6 +154,13 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        if(request()->notification_id) {
+            $notification = auth()->user()->unreadNotifications()->where('id', request()->notification_id)->first();
+            if($notification != null) {
+                $notification->markAsRead();
+            }
+        }
+
         $tenders = [];
         if(auth()->user()->company_id) {
             $tenders = OrderTender::pluck('company_id')->toArray();

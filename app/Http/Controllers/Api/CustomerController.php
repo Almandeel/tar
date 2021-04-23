@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\User;
 use App\Order;
 use App\Entery;
 use App\Account;
 use App\Pricing;
 use App\OrderItem;
 use App\OrderTender;
+use App\Events\NewOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\NewOrderNotification;
+use Notification;
 
 class CustomerController extends Controller
 {
@@ -77,6 +81,13 @@ class CustomerController extends Controller
                 'car_type'  => $request->car_type[$index],
             ]);
         }
+
+
+        broadcast(new NewOrder($order));
+
+        $users = User::wherePermissionIs(['orders-delete', 'orders-update'])->get();
+
+        Notification::send($users, new NewOrderNotification($order));
 
         return response()->json([
             'order_number' => $order->id,

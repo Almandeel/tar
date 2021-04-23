@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AddOrder implements ShouldBroadcast
+class NewTender implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,6 +31,6 @@ class AddOrder implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('add-order');
+        return new Channel('new-tender');
     }
 }

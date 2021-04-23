@@ -18,6 +18,7 @@
   @if(!isset($ltr))
   <!-- RTL -->
   <link rel="stylesheet" href="{{ asset('dashboard/css/bootstrap-rtl.css') }}">
+
   <style>
     table.table-bordered.dataTable th:first-child,
     table.table-bordered.dataTable td:first-child {
@@ -84,4 +85,4 @@
 </head>
 
 <body class="hold-transition sidebar-mini">
-  <div class="wrapper">
+  <div id="app" class="wrapper">
