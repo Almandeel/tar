@@ -24,9 +24,10 @@
                     </div>
                     <select class="custom-select" name="order_type"  id="order_type">
                         <option id="none" value="">نوع الشحن</option>
-                        <option id="container" value="حاويات" {{ $order->type == 'حاويات' ? 'selected' : '' }}>شحن حاويات</option>
-                        <option id="goods" value="بضائع" {{ $order->type == 'بضائع' ? 'selected' : '' }}>شحن بضائع</option>
-                        <option id="cars" value="مركبات" {{ $order->type == 'مركبات' ? 'selected' : '' }}>شحن مركبات</option>
+                        <option id="container" value="حاويات" {{ $order->type == 'حاويات' ? 'selected' : '' }}> حاويات</option>
+                        <option id="goods" value="بضائع" {{ $order->type == 'بضائع' ? 'selected' : '' }}> بضائع</option>
+                        <option id="cars" value="مركبات" {{ $order->type == 'مركبات' ? 'selected' : '' }}> مركبات</option>
+                        <option id="cars" value="وقود" {{ $order->type == 'وقود' ? 'selected' : '' }}> وقود</option>
                     </select>
                 </div>
                 <div class="row">
@@ -118,7 +119,7 @@
 @endsection
 
 @push('js')
-    <script>
+    <script type="application/javascript">
         let container = 
         `
         <tr>
@@ -133,6 +134,12 @@
             </td>
             <td>
                 <input type="number" name="weight[]" class="form-control" placeholder="الوزن">
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                -
             </td>
         </tr>
         `
@@ -149,6 +156,15 @@
             <td>
                 <input type="number" name="weight[]" class="form-control" placeholder="الوزن">
             </td>
+            <td>
+                <input type="text" name="unit[]" class="form-control" placeholder="الوحدة">
+            </td>
+            <td>
+                <select class="custom-select form-control"  name="car_type[]">
+                    <option value="شبك">شبك</option>
+                    <option value="سطحة">سطحة</option>
+                </select>
+            </td>
         </tr>
         `
 
@@ -156,11 +172,7 @@
         `
         <tr>
             <td>
-                <select class="custom-select form-control"  name="item_type[]">
-                    @foreach($vehicles as $vehicle)
-                        <option value="{{ $vehicle->name }}">{{ $vehicle->name }}</option>
-                    @endforeach
-                </select>
+                <input type="text" name="item_type[]" class="form-control" placeholder="المركبة">
             </td>
             <td>
                 <input type="number" name="quantity[]" class="form-control" placeholder="العدد">
@@ -168,27 +180,63 @@
             <td>
                 <input type="number" name="weight[]" class="form-control" placeholder="الوزن">
             </td>
+            <td>
+                -
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        `
+
+        let oil = 
+        `
+        <tr>
+            <td>
+                <select class="custom-select form-control"  name="item_type[]">
+                    <option value="بنزين">
+                        بنزين
+                    </option>
+                    <option value="جازولين">
+                        جازولين
+                    </option>
+                </select>
+            </td>
+            <td>
+                <input type="number" name="quantity[]" class="form-control" placeholder="العدد">
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                -
+            </td>
         </tr>
         `
 
         $('#add-items').click(function () {
             let order_type = $('#order_type').val()
-            console.log(order_type)
 
-            if(order_type == 'حاويات') {
-                $('#table-items tbody').append(container)
-            }
+            switch (order_type) {
+                case 'حاويات':
+                    $('#table-items tbody').append(container)
+                    break;
+                case 'بضائع':
+                    $('#table-items tbody').append(goods)
+                    break;
+                case 'مركبات':
+                    $('#table-items tbody').append(cars)
+                    break;
 
-            if(order_type == 'بضائع') {
-                $('#table-items tbody').append(goods)
-            }
-
-            if(order_type == 'مركبات') {
-                $('#table-items tbody').append(cars)
-            }
-
-            if(order_type == '') {
-                alert('اختار نوع الشحن')
+                case 'وقود':
+                    $('#table-items tbody').append(oil)
+                    break;
+                default:
+                    alert('اختار نوع الشحن')
+                    break;
             }
         })
     </script>

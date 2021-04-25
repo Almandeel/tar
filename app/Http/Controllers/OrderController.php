@@ -18,6 +18,8 @@ use App\Events\NewOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewOrderNotification;
+use Illuminate\Support\Facades\DB;
+
 // use FCM;
 
 class OrderController extends Controller
@@ -112,38 +114,43 @@ class OrderController extends Controller
             'order_type'        => 'required | string',
         ]);
 
-        $order = Order::create([
-            'type'          => $request->order_type,
-            'name'          => $request->name,
-            'phone'         => $request->phone,
-            'from'          => $request->from,
-            'to'            => $request->to,
-            'shipping_date' => $request->shipping_date,
-            'savior_name'   => $request->savior_name,
-            'savior_phone'  => $request->savior_phone,
-            'user_add_id'   => auth()->user()->id,
-        ]);
 
-        for ($index=0; $index < count($request->quantity); $index++) { 
-            $order_items = OrderItem::create([
-                'order_id'  => $order->id,
-                'type'      => $request->item_type[$index],
-                'quantity'  => $request->quantity[$index],
-                'weight'    => $request->weight[$index],
-                'unit'      => $request->unit[$index],
-                'car_type'  => $request->car_type[$index],
+        return DB::transaction(function() use($request) {
+            $order = Order::create([
+                'type'          => $request->order_type,
+                'name'          => $request->name,
+                'phone'         => $request->phone,
+                'from'          => $request->from,
+                'to'            => $request->to,
+                'shipping_date' => $request->shipping_date,
+                'savior_name'   => $request->savior_name,
+                'savior_phone'  => $request->savior_phone,
+                'user_add_id'   => auth()->user()->id,
             ]);
-        }
+    
+            for ($index=0; $index < count($request->quantity); $index++) { 
+                $order_items = OrderItem::create([
+                    'order_id'  => $order->id,
+                    'type'      => $request->item_type[$index] ?? null,
+                    'quantity'  => $request->quantity[$index] ?? null,
+                    'weight'    => $request->weight[$index] ?? null,
+                    'unit'      => $request->unit[$index] ?? null,
+                    'car_type'  => $request->car_type[$index] ?? null,
+                ]);
+            }
+
+            broadcast(new NewOrder($order));
+
+            $users = User::wherePermissionIs(['delete-orders', 'update-orders'])->get();
+
+            Notification::send($users, new NewOrderNotification($order));
+
+            return redirect()->route('orders.show', $order->id)->with('success', 'تمت العملية بنجاح');
+
+
+        });
 
         // broadcast(new AddOrder($order));
-
-        broadcast(new NewOrder($order));
-
-        $users = User::wherePermissionIs(['delete-orders', 'update-orders'])->get();
-
-        Notification::send($users, new NewOrderNotification($order));
-
-        return redirect()->route('orders.show', $order->id)->with('success', 'تمت العملية بنجاح');
     }
 
     /**

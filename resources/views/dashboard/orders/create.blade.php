@@ -30,9 +30,16 @@
                     </div>
                     <select class="custom-select" name="order_type"  id="order_type">
                         <option id="none" value="">نوع الشحن</option>
-                        <option id="container" value="حاويات">شحن حاويات</option>
-                        <option id="goods" value="بضائع">شحن بضائع</option>
-                        <option id="cars" value="مركبات">شحن مركبات</option>
+                        <option id="container" value="حاويات"   حاويات</option>
+                        <option id="goods" value="بضائع">
+                            بضائع
+                        </option>
+                        <option id="cars" value="مركبات">
+                            مركبات
+                        </option>
+                        <option id="oil" value="وقود">
+                            وقود
+                        </option>
                     </select>
                 </div>
                 <div class="row">
@@ -164,11 +171,7 @@
         `
         <tr>
             <td>
-                <select class="custom-select form-control"  name="item_type[]">
-                    @foreach($vehicles as $vehicle)
-                        <option value="{{ $vehicle->name }}">{{ $vehicle->name }}</option>
-                    @endforeach
-                </select>
+                <input type="text" name="item_type[]" class="form-control" placeholder="المركبة">
             </td>
             <td>
                 <input type="number" name="quantity[]" class="form-control" placeholder="العدد">
@@ -185,24 +188,54 @@
         </tr>
         `
 
+        let oil = 
+        `
+        <tr>
+            <td>
+                <select class="custom-select form-control"  name="item_type[]">
+                    <option value="بنزين">
+                        بنزين
+                    </option>
+                    <option value="جازولين">
+                        جازولين
+                    </option>
+                </select>
+            </td>
+            <td>
+                <input type="number" name="quantity[]" class="form-control" placeholder="العدد">
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                -
+            </td>
+        </tr>
+        `
+
         $('#add-items').click(function () {
             let order_type = $('#order_type').val()
-            console.log(order_type)
 
-            if(order_type == 'حاويات') {
-                $('#table-items tbody').append(container)
-            }
+            switch (order_type) {
+                case 'حاويات':
+                    $('#table-items tbody').append(container)
+                    break;
+                case 'بضائع':
+                    $('#table-items tbody').append(goods)
+                    break;
+                case 'مركبات':
+                    $('#table-items tbody').append(cars)
+                    break;
 
-            if(order_type == 'بضائع') {
-                $('#table-items tbody').append(goods)
-            }
-
-            if(order_type == 'مركبات') {
-                $('#table-items tbody').append(cars)
-            }
-
-            if(order_type == '') {
-                alert('اختار نوع الشحن')
+                case 'وقود':
+                    $('#table-items tbody').append(oil)
+                    break;
+                default:
+                    alert('اختار نوع الشحن')
+                    break;
             }
         })
     </script>
