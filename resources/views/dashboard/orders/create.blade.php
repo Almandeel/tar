@@ -30,7 +30,12 @@
                     </div>
                     <select class="custom-select" name="order_type"  id="order_type">
                         <option id="none" value="">نوع الشحن</option>
-                        <option id="container" value="حاويات"   حاويات</option>
+                        <option 
+                        id="container"
+                        value="حاويات"
+                        >
+                        حاويات
+                        </option>
                         <option id="goods" value="بضائع">
                             بضائع
                         </option>
