@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
@@ -10,7 +11,7 @@ class Company extends Model
         'name', 'phone', 'address', 'account_id',
     ];
 
-    public function user() {
-        return $this->hasOne('App\User');
+    public function users() {
+        return $this->hasMany(User::class);
     }
 }

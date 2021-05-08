@@ -9,6 +9,7 @@ use App\Company;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class CompanyController extends Controller
 {
@@ -127,5 +128,20 @@ class CompanyController extends Controller
     public function destroy(Company $company)
     {
         //
+    }
+
+    public function storeUser(Request $request)
+    {
+        $request->validate([
+            'phone' => ['required' , 'unique:users']
+        ]);
+
+        $request_data = $request->all();
+        $request_data['password'] = Hash::make(123456);
+        $request_data['status'] = 1;
+
+        $user = User::create($request_data);
+        
+        return back()->with('success', 'تمت العملية بنجاح');
     }
 }
