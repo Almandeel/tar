@@ -46,7 +46,7 @@
                     @foreach ($companies as $company)
                         <tr>
                             <td>{{ $company->name }}</td>
-                            <td>{{ $company->phone }}</td>
+                            <td><a href="tel:{{ $company->phone }}">{{ $company->phone }}</a></td>
                             <td>{{ $company->address }}</td>
                             <td>
                                 @permission('enteries-read')
