@@ -46,23 +46,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>منطقة الشحن</label>
-                            <select name="from" class="form-control">
-                                <option value="">منطقة الشحن</option>
-                                @foreach ($zones as $zone)
-                                    <option value="{{ $zone->name }}" {{ $order->from == $zone->name ? 'selected' : '' }}>{{ $zone->name }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" name="from" class="form-control" value="{{ $order->from }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>منطقة التفريغ</label>
-                            <select name="to" class="form-control">
-                                <option value="">منطقة التفريغ</option>
-                                @foreach ($zones as $zone)
-                                    <option value="{{ $zone->name }}" {{ $order->to == $zone->name ? 'selected' : '' }}>{{ $zone->name }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" name="to" class="form-control" value="{{ $order->to }}">
                         </div>
                     </div>
                     <div class="col-md-12">
