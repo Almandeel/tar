@@ -26,7 +26,7 @@
         name: 'notification',
         data() {
             return {
-                notification : [],
+                notifications : [],
                 total : 0
             }
         },
