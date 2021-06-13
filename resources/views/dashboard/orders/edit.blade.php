@@ -1,17 +1,17 @@
-@extends('layouts.dashboard.app')
+@extends('admin.master')
 
 @section('title')
     الطلبات | تعديل
 @endsection
 
 @section('content')
-    @component('partials._breadcrumb')
+    {{-- @component('partials._breadcrumb')
         @slot('title', ['الطلبات' , 'تعديل'])
         @slot('url', [route('orders.index'),'#'])
         @slot('icon', ['list', 'edit'])
-    @endcomponent
+    @endcomponent --}}
     <div class="card">
-        <div class="card-header">
+        <div class="card-header card-header-danger">
             <h3 class="card-title">تعديل طلب</h3>
         </div>
         <div class="card-body">
@@ -34,13 +34,13 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>اسم العميل</label>
-                            <input type="text" name="name" class="form-control" placeholder="اسم العميل" value="{{ $order->name }}">
+                            <input type="text" name="name" class="form-control"  value="{{ $order->name }}">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>رقم الهاتف</label>
-                            <input type="number" name="phone" class="form-control" placeholder="رقم الهاتف" value="{{ $order->phone }}">
+                            <input type="number" name="phone" class="form-control"  value="{{ $order->phone }}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -56,16 +56,22 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <label>تاريخ الشحن</label>
-                        <input type="date" name="shipping_date" class="form-control" value="{{ $order->shipping_date }}" placeholder="تاريخ الشحن">
+                        <div class="form-group">
+                            <label>تاريخ الشحن</label>
+                            <input type="date" name="shipping_date" class="form-control" value="{{ $order->shipping_date }}" >
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label>اسم المخلص</label>
-                        <input type="text" name="savior_name" value="{{ $order->savior_name }}" class="form-control" placeholder="اسم المخلص">
+                        <div class="form-group">
+                            <label>اسم المخلص</label>
+                            <input type="text" name="savior_name" value="{{ $order->savior_name }}" class="form-control" >
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label>اسم رقم هاتف المخلص</label>
-                        <input type="number" name="savior_phone" value="{{ $order->savior_phone }}" class="form-control" placeholder="رقم هاتف المخلص">
+                        <div class="form-group">
+                            <label for="savior_phone"> رقم هاتف المخلص</label>
+                            <input type="number" id="savior_phone" name="savior_phone" value="{{ $order->savior_phone }}" class="form-control" >
+                        </div>
                     </div>
                 </div>
                 <hr>
@@ -76,6 +82,8 @@
                                 <th>النوع</th>
                                 <th>العدد</th>
                                 <th>الوزن</th>
+                                <th>الوحدة</th>
+                                <th>نوع العربة</th>
                             </tr>
                         </thead>
                         <tbody>

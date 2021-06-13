@@ -1,21 +1,21 @@
-@extends('layouts.dashboard.app', ['datatable' => true , 'modals' => ['show_order']])
+@extends('admin.master', ['datatable' => true , 'modals' => ['show_order']])
 
 @section('title')
     الطلبات
 @endsection
 
 @section('content')
-    @component('partials._breadcrumb')
+    {{-- @component('partials._breadcrumb')
         @slot('title', ['الطلبات'])
         @slot('url', ['#'])
         @slot('icon', ['list'])
-    @endcomponent
+    @endcomponent --}}
     <div class="card">
-        <div class="card-header">
+        <div class="card-header card-header-danger">
             <h3 class="card-title float-right">قائمة الطلبات</h3>
             @if(!auth()->user()->hasRole('company'))
             @permission('orders-create')
-                <a  href="{{ route('orders.create') }}" style="display:inline-block; margin-left:1%" class="btn btn-primary btn-sm float-left">
+                <a  href="{{ route('orders.create') }}" style="display:inline-block; margin-left:1%" class="btn btn-white text-dark btn-sm float-left">
                     <i class="fa fa-plus"> اضافة</i>
                 </a>
             @endpermission
@@ -23,7 +23,7 @@
         </div>
         <div id="app" class="card-body table-responsive">
             <table style="width:100%" id="datatable" class="table table-bordered table-hover text-center">
-                <thead>
+                <thead class="text-danger">
                     <tr>
                         <th>#</th>
                         <th>رقم الطلب</th>

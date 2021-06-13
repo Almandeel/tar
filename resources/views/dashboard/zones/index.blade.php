@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.app', ['datatable' => true, 'modals' => ['zone']])
+@extends('admin.master', ['datatable' => true, 'modals' => ['zone']])
 
 @section('title')
     المناطق

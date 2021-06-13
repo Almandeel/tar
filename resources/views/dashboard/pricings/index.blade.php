@@ -1,22 +1,26 @@
-@extends('layouts.dashboard.app', ['datatable' => true, 'modals' => ['pricing']])
+@extends('admin.master', ['datatable' => true, 'modals' => ['pricing']])
 
 @section('title')
     الاسعار
 @endsection
 
 @section('content')
-    @component('partials._breadcrumb')
+    {{-- @component('partials._breadcrumb')
         @slot('title', ['الاسعار'])
         @slot('url', ['#'])
         @slot('icon', ['list'])
-    @endcomponent
+    @endcomponent --}}
     <div class="card">
-        <div class="card-header">
-            @permission('pricings-create')
-                <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-primary btn-sm pull-left pricing" data-toggle="modal" data-target="#pricingModal">
-                    <i class="fa fa-user-plus"> اضافة</i>
-                </button>
-            @endpermission
+        <div class="card-header card-header-danger">
+            <h4>
+                قائمة الاسعار
+
+                @permission('pricings-create')
+                    <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-white text-dark btn-sm pull-left pricing" data-toggle="modal" data-target="#pricingModal">
+                        <i class="fa fa-plus"> اضافة</i>
+                    </button>
+                @endpermission
+            </h4>
         </div>
         <div class="card-body">
             <table id="datatable" class="table table-bordered table-hover text-center">

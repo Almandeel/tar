@@ -1,23 +1,27 @@
-@extends('layouts.dashboard.app', ['datatable' => true, 'modals' => ['company']])
+@extends('admin.master', ['datatable' => true, 'modals' => ['company']])
 
 @section('title')
     الشركات
 @endsection
 
 @section('content')
-    @component('partials._breadcrumb')
+    {{-- @component('partials._breadcrumb')
         @slot('title', ['الشركات'])
         @slot('url', ['#'])
         @slot('icon', ['list'])
-    @endcomponent
+    @endcomponent --}}
     <div class="card">
-        <div class="card-header">
+        <div class="card-header card-header-danger">
             @permission('companies-create')
-                <div class="row">
+                <h3>
+                    قائمة الشركات و اصحاب الشاحنات 
+                    <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-white text-dark btn-sm pull-left company" data-toggle="modal" data-target="#CompanyModal">
+                        <i class="fa fa-plus"> اضافة</i>
+                    </button>
+                </h3>
+                {{-- <div class="row">
                     <div class="col-md-6">
-                        <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-primary btn-sm pull-left company" data-toggle="modal" data-target="#CompanyModal">
-                            <i class="fa fa-user-plus"> اضافة</i>
-                        </button>
+                        
                     </div>
                     <div class="col-md-6">
                         <form style="display:inline-block" action="#" method="get">
@@ -29,12 +33,12 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> --}}
             @endpermission
         </div>
         <div class="card-body">
             <table id="datatable" class="table table-bordered table-hover text-center">
-                <thead>
+                <thead class="text-danger">
                     <tr>
                         <th>الاسم</th>
                         <th>رقم الهاتف</th>

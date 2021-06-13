@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.app', ['datatable' => true, 'modals' => ['vehicle']])
+@extends('admin.master', ['datatable' => true, 'modals' => ['vehicle']])
 
 @section('title')
     المركبات

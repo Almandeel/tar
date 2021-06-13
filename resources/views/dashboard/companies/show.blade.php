@@ -1,18 +1,18 @@
-@extends('layouts.dashboard.app', ['datatable' => true, 'modals' => ['payment', 'user_company']])
+@extends('admin.master', ['datatable' => true, 'modals' => ['payment', 'user_company']])
 
 @section('title')
     الشركات  | كشف حساب
 @endsection
 
 @section('content')
-    @component('partials._breadcrumb')
+    {{-- @component('partials._breadcrumb')
         @slot('title', ['الشركات', 'كشف حساب'])
         @slot('url', [route('companies.index'), '#'])
         @slot('icon', ['list', 'eye'])
-    @endcomponent
+    @endcomponent --}}
     <div class="card">
-        <div class="card-header">
-            <button class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> اضافة مستخدم</button>
+        <div class="card-header card-header-danger">
+            <h4>البيانات</h4>
         </div>
         <div class="card-body">
             <table class="table table-bordered table-hover text-center">
@@ -22,12 +22,16 @@
                         <td>{{ $company->name }}</td>
                         <th>رقم الهاتف</th>
                         <td>{{ $company->phone }}</td>
+                    </tr>
+                    <tr>
                         <th>مدين</th>
                         <td>{{ number_format($debt) }}</td>
                         <th>دائن</th>
                         <td>{{ number_format($cridet) }}</td>
-                        <th>الصافي</th>
-                        <td>{{ number_format($cridet - $debt) }}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">الصافي</th>
+                        <td colspan="2">{{ number_format($cridet - $debt) }}</td>
                     </tr>
                 </thead>
             </table>
@@ -35,15 +39,15 @@
     </div>
 
     <div class="card">
-        <div class="card-header">
-            <h3>
+        <div class="card-header card-header-danger">
+            <h4>
                 قائمة الدفعات
                 @permission('payments-create')
-                    <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-primary btn-sm float-left payment" data-company="{{ $company->id }}" data-toggle="modal" data-target="#paymentModal">
-                        <i class="fa fa-dollar-sign"> اضافة دفعة</i>
+                    <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-white text-dark btn-sm float-left payment" data-company="{{ $company->id }}" data-toggle="modal" data-target="#paymentModal">
+                        <i class="fa fa-plus"> اضافة دفعة</i>
                     </button>
                 @endpermission
-            </h3>
+            </h4>
         </div>
         <div class="card-body">
             <table id="datatable" class="table table-bordered table-hover text-center">
@@ -70,15 +74,15 @@
     </div>
 
     <div class="card">
-        <div class="card-header">
-            <h3>
+        <div class="card-header card-header-danger">
+            <h4>
                 قائمة المستخدمين
                 <button 
                     data-company="{{ $company->id }}" 
                     data-fcm="{{ $company->users->first()->fcm_token }}" 
                     data-toggle="modal" data-target="#companyUserModal" 
-                    class="btn btn-primary btn-sm float-left company-user"><i class="fa fa-user-plus"></i> اضافة مستخدم</button>
-            </h3>
+                    class="btn btn-white text-dark btn-sm float-left company-user"><i class="fa fa-user-plus"></i> اضافة مستخدم</button>
+            </h4>
         </div>
         <div class="card-body">
             <table class="table table-bordered table-hover text-center">

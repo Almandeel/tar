@@ -27,11 +27,11 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->search) {
-            $users = User::where('name', 'like', '%' . $request->search . '%' )->orWhere('phone', 'like', '%' . $request->search . '%')->paginate();
-        }else {
-            $users = User::where('company_id', null)->where('id', '!=', auth()->user()->id)->orderBy('created_at')->paginate(10);
-        }
+        $users = User::where('company_id', null)->where('id', '!=', auth()->user()->id)
+        ->when($request->search , function($q) use($request) {return $q->where('name', 'like', '%' . $request->search . '%' )->orWhere('phone', 'like', '%' . $request->search . '%');})
+        ->orderBy('created_at')
+        ->paginate(10);
+
         return view('dashboard.users.index',compact('users'));
     }
 

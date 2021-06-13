@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.app', ['datatable' => true])
+@extends('admin.master', ['datatable' => true])
 
 @section('title')
   اضافة مستخدم
@@ -28,13 +28,13 @@
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label>الاسم</label>
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="الاسم" required>
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
                             </div>
                           </div>
                           <div class="col-md-6">
                               <div class="form-group">
                                   <label>رقم الهاتف</label>
-                                  <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" placeholder="رقم الهاتف" required>
+                                  <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" required>
                               </div>
                           </div>
 						            </div>
@@ -42,13 +42,13 @@
                           <div class="col-md-6">
                             <div class="form-group">
                                 <label>@lang('users.password')</label>
-                                <input id="password" type="password" class="form-control" name="password" placeholder="@lang('users.password')" required>
+                                <input id="password" type="password" class="form-control" name="password"  required>
                             </div>
                           </div>
                           <div class="col-md-6">
 							              <div class="form-group">
                                     <label>@lang('users.password_confirmation')</label>
-                                    <input type="password" class="form-control" name="password_confirmation" placeholder="@lang('users.password_confirmation')" data-parsley-equalto="#password" required>
+                                    <input type="password" class="form-control" name="password_confirmation"  data-parsley-equalto="#password" required>
 								            </div>
                           </div>
                           {{-- <div class="col-md-6">
@@ -95,16 +95,27 @@
                 
                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                       <div class="card-body">
-                        @foreach ($roles as $role)
-                          <div class="col-md-3">
-                              <div class="form-group" dir="rtl">
-                                  <label>
+                        <div class="row">
+                          @foreach ($roles as $role)
+                            <div class="col-md-3">
+                                <div class="form-check" dir="ltr">
+                                  <label class="form-check-label">
                                     {{ $role->name }}
-                                    <input type="checkbox" class="icheckbox_square-green" name="roles[]" value="{{ $role->id }}">
+                                    <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $role->id }}" >
+                                    <span class="form-check-sign">
+                                      <span class="check"></span>
+                                    </span>
                                   </label>
-                              </div>
-                          </div>
-                        @endforeach
+                                </div>
+                                {{-- <div class="form-group" dir="rtl">
+                                    <label>
+                                      {{ $role->name }}
+                                      <input type="checkbox" class="icheckbox_square-green" name="roles[]" value="{{ $role->id }}">
+                                    </label>
+                                </div> --}}
+                            </div>
+                          @endforeach
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -139,10 +150,19 @@
                             @endif
                             @if( ( count($permissions) - ($index) ) > $missing_col  )
                               <td>
-                                  <label>
+                                  <div class="form-check">
+                                    <label class="form-check-label">
+                                      {{ $permission->display_name}}
+                                      <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->id }}" >
+                                      <span class="form-check-sign">
+                                        <span class="check"></span>
+                                      </span>
+                                    </label>
+                                  </div>
+                                  {{-- <label>
                                     {{ $permission->display_name  }}
-                                    <input type="checkbox" class="icheckbox_square-green" name="permissions[]" value="{{ $permission->id }}">
-                                  </label>
+                                    <input type="checkbox" class="form-check-input" name="permissions[]" value="{{ $permission->id }}">
+                                  </label> --}}
                               </td>
                             @else
                             @if($missing_col == 1)
@@ -222,7 +242,7 @@
     </form>
 @endsection
 
-@push('js')
+{{-- @push('js')
     <script src="{{ asset('dashboard/plugins/icheck/icheck.min.js') }}"></script>
     <script>
       $(document).ready(function(){
@@ -232,4 +252,4 @@
         });
       });
       </script>
-@endpush
+@endpush --}}

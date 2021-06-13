@@ -20,11 +20,9 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->search) {
-            $companies = Company::where('name', 'like', '%' . $request->search . '%' )->orWhere('phone', 'like', '%' . $request->search . '%')->paginate();
-        }else {
-            $companies = Company::paginate(10);
-        }
+        $companies = Company::with('users')
+        ->when($request->search, function ($q) use ($request) {return $q->where('name', 'like', '%' . $request->search . '%' )->orWhere('phone', 'like', '%' . $request->search . '%');})
+        ->paginate(10);
         return view('dashboard.companies.index', compact('companies'));
     }
 
@@ -82,6 +80,7 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
+        $company    = $company->load('users');
         $enteries   = Entery::where('from_id', $company->account_id)->Orwhere('to_id', $company->account_id)->get();
         $debt       = Entery::debt($company->account_id);
         $cridet     = Entery::cridet($company->account_id);

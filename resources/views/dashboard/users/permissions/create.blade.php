@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.app')
+@extends('admin.master')
 
 @section('title')
     إضافة مشرف

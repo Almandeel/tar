@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.app', ['datatable' => true])
+@extends('admin.master', ['datatable' => true])
 
 @section('title')
     تعديل مشرف

@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.app')
+@extends('admin.master')
 
 @section('title')
     الطلبات | اضافة
@@ -13,12 +13,12 @@
 @endpush
 
 @section('content')
-    @component('partials._breadcrumb')
+    {{-- @component('partials._breadcrumb')
         @slot('title', ['الطلبات' , 'اضافة'])
         @slot('url', [route('orders.index'),'#'])
-    @endcomponent
+    @endcomponent --}}
     <div class="card">
-        <div class="card-header">
+        <div class="card-header card-header-danger">
             <h3 class="card-title">اضافة طلب</h3>
         </div>
         <div class="card-body">
@@ -51,19 +51,19 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>اسم العميل</label>
-                            <input {{ auth()->user()->hasRole('customer') ? 'readonly' .' ' . "value=" . auth()->user()->name  : '' }} type="text" name="name" class="form-control" placeholder="اسم العميل">
+                            <input {{ auth()->user()->hasRole('customer') ? 'readonly' .' ' . "value=" . auth()->user()->name  : '' }} type="text" name="name" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>رقم الهاتف</label>
-                            <input {{ auth()->user()->hasRole('customer') ? 'readonly' .' ' . "value=" . auth()->user()->phone  : '' }} type="number" name="phone" class="form-control" placeholder="رقم الهاتف">
+                            <input {{ auth()->user()->hasRole('customer') ? 'readonly' .' ' . "value=" . auth()->user()->phone  : '' }} type="number" name="phone" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>منطقة الشحن</label>
-                            <select name="from" class="form-control">
+                            <select name="from" class="custom-select">
                                 <option value="">منطقة الشحن</option>
                                 @foreach ($zones as $zone)
                                     <option value="{{ $zone->name }}">{{ $zone->name }}</option>
@@ -74,7 +74,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>منطقة التفريغ</label>
-                            <select name="to" class="form-control">
+                            <select name="to" class="custom-select">
                                 <option value="">منطقة التفريغ</option>
                                 @foreach ($zones as $zone)
                                     <option value="{{ $zone->name }}">{{ $zone->name }}</option>
@@ -84,15 +84,15 @@
                     </div>
                     <div class="col-md-12">
                         <label>تاريخ الشحن</label>
-                        <input type="date" name="shipping_date" class="form-control" placeholder="تاريخ الشحن">
+                        <input type="date" name="shipping_date" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label>اسم المخلص</label>
-                        <input type="text" name="savior_name" class="form-control" placeholder="اسم المخلص">
+                        <input type="text" name="savior_name" class="form-control">
                     </div>
                     <div class="col-md-6">
-                        <label>اسم رقم هاتف المخلص</label>
-                        <input type="number" name="savior_phone" class="form-control" placeholder="رقم هاتف المخلص">
+                        <label> رقم هاتف المخلص</label>
+                        <input type="number" name="savior_phone" class="form-control">
                     </div>
                 </div>
                 <hr>

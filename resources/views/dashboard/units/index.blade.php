@@ -1,22 +1,25 @@
-@extends('layouts.dashboard.app', ['datatable' => true, 'modals' => ['unit']])
+@extends('admin.master', ['datatable' => true, 'modals' => ['unit']])
 
 @section('title')
     الوحدات
 @endsection
 
 @section('content')
-    @component('partials._breadcrumb')
+    {{-- @component('partials._breadcrumb')
         @slot('title', ['الوحدات'])
         @slot('url', ['#'])
         @slot('icon', ['list'])
-    @endcomponent
+    @endcomponent --}}
     <div class="card">
-        <div class="card-header">
-            @permission('units-create')
-                <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-primary btn-sm pull-left unit" data-toggle="modal" data-target="#UnitModal">
-                    <i class="fa fa-user-plus"> اضافة</i>
-                </button>
-            @endpermission
+        <div class="card-header card-header-danger">
+            <h4>
+                قائمة الوحدات
+                @permission('units-create')
+                    <button  href="#" style="display:inline-block; margin-left:1%" class="btn btn-white text-dark btn-sm pull-left unit" data-toggle="modal" data-target="#UnitModal">
+                        <i class="fa fa-plus"> اضافة</i>
+                    </button>
+                @endpermission
+            </h4>
         </div>
         <div class="card-body">
             <table id="datatable" class="table table-bordered table-hover text-center">

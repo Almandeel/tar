@@ -1,68 +1,70 @@
-@extends('layouts.dashboard.app', ['datatable' => true, 'modals' => ['tender']])
+@extends('admin.master', ['datatable' => true, 'modals' => ['tender']])
 
 @section('title')
     الطلبات | عرض
 @endsection
 
 @section('content')
-    @component('partials._breadcrumb')
+    {{-- @component('partials._breadcrumb')
         @slot('title', ['الطلبات', 'عرض'])
         @slot('url', [route('orders.index'),'#'])
-    @endcomponent
+    @endcomponent --}}
     <div class="card">
-        <div class="card-header">
-            طلب رقم {{ $order->id }}
-
-            @permission('orders-print')
-                <a href="{{ route('reports.order', $order->id) }}" target="_blank" class="btn btn-secondary btn-sm float-left">طباعة</a>
-            @endpermission
-
-            @if($order->status == \App\Order::ORDER_DEFAULT)
-                @permission('orders-update')
-                    <form class="float-left" style="display: inline-block; margin:0 1%" action="{{ route('orders.update', $order->id) }}?type=accepted" method="post">
-                        @csrf 
-                        @method('PUT')
-                        <button type="submit" class="btn btn-success btn-sm">
-                            <i class="fa fa-check"> موافقة</i>
-                        </button>
-                    </form>
+        <div class="card-header card-header-danger">
+            <h3>
+                طلب رقم {{ $order->id }}
+    
+                @permission('orders-print')
+                    <a href="{{ route('reports.order', $order->id) }}" target="_blank" class="btn btn-secondary btn-sm float-left">طباعة</a>
                 @endpermission
-                @permission('orders-delete')
-                    <form id="deleteOrder"  style="display: inline-block;float:left" action="{{ route('orders.destroy', $order->id) }}" method="post">
-                        @csrf 
-                        @method('delete')
-                        <button class="btn btn-danger btn-sm delete"><i class="fa fa-trash">الغاء </i></button>
-                    </form>
-                @endpermission
-            @endif
-
-            @role('company')
-                @if($order->status == \App\Order::ORDER_ACCEPTED && !in_array(auth()->user()->company_id, $tenders))
-                        <button type="button" class="btn btn-success btn-sm float-left" data-toggle="modal" data-target="#TenderyModal">
-                            <i class="fa fa-check"> استلام الطلب</i>
-                        </button>
+    
+                @if($order->status == \App\Order::ORDER_DEFAULT)
+                    @permission('orders-update')
+                        <form class="float-left" style="display: inline-block; margin:0 1%" action="{{ route('orders.update', $order->id) }}?type=accepted" method="post">
+                            @csrf 
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fa fa-check"> موافقة</i>
+                            </button>
+                        </form>
+                    @endpermission
+                    @permission('orders-delete')
+                        <form id="deleteOrder"  style="display: inline-block;float:left" action="{{ route('orders.destroy', $order->id) }}" method="post">
+                            @csrf 
+                            @method('delete')
+                            <button class="btn btn-danger btn-sm delete"><i class="fa fa-trash">الغاء </i></button>
+                        </form>
+                    @endpermission
                 @endif
-
-                @if($order->status == \App\Order::ORDER_IN_ROAD)
-                    <form style="display: inline-block; float:left" action="{{ route('orders.update', $order->id) }}?type=road" method="post">
-                        @csrf 
-                        @method('PUT')
-                        <button type="submit" class="btn btn-success btn-sm">
-                            <i class="fa fa-check"> تم توصيل الطلب </i>
-                        </button>
-                    </form>
-                @endif
-
-                @if($order->status == \App\Order::ORDER_IN_SHIPPING)
-                    <form style="display: inline-block; float:left" action="{{ route('orders.update', $order->id) }}?type=shipping" method="post">
-                        @csrf 
-                        @method('PUT')
-                        <button type="submit" class="btn btn-success btn-sm">
-                            <i class="fa fa-check"> تم شحن الطلب </i>
-                        </button>
-                    </form>
-                @endif
-            @endrole
+    
+                @role('company')
+                    @if($order->status == \App\Order::ORDER_ACCEPTED && !in_array(auth()->user()->company_id, $tenders))
+                            <button type="button" class="btn btn-success btn-sm float-left" data-toggle="modal" data-target="#TenderyModal">
+                                <i class="fa fa-check"> استلام الطلب</i>
+                            </button>
+                    @endif
+    
+                    @if($order->status == \App\Order::ORDER_IN_ROAD)
+                        <form style="display: inline-block; float:left" action="{{ route('orders.update', $order->id) }}?type=road" method="post">
+                            @csrf 
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fa fa-check"> تم توصيل الطلب </i>
+                            </button>
+                        </form>
+                    @endif
+    
+                    @if($order->status == \App\Order::ORDER_IN_SHIPPING)
+                        <form style="display: inline-block; float:left" action="{{ route('orders.update', $order->id) }}?type=shipping" method="post">
+                            @csrf 
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fa fa-check"> تم شحن الطلب </i>
+                            </button>
+                        </form>
+                    @endif
+                @endrole
+            </h3>
 
         </div>
         <div class="card-body">

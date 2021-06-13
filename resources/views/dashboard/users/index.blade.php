@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.app', ['datatable' => true])
+@extends('admin.master', ['datatable' => true])
 
 @section('title')
     users
@@ -11,42 +11,17 @@
         @slot('icon', ['users'])
     @endcomponent --}}
     <div class="card">
-        <div class="card-header">
+        <div class="card-header card-header-danger">
             @permission('users-create')
-                
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <a  href="{{ route('users.create') }}" style="display:inline-block; margin-left:1%" class="btn btn-primary btn-sm pull-left" >
-                            <i class="fa fa-user-plus"> اضافة</i>
-                        </a>
-                    </div>
-                    <div class="col-md-6">
-                        <form style="display:inline-block" action="#" method="get">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" name="search" placeholder="بحث" aria-label="بحث" aria-describedby="basic-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit">بحث</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                
+            قائمة المستخددمين
+            <a  href="{{ route('users.create') }}" style="display:inline-block; margin-left:1%" class="btn btn-white text-dark btn-sm pull-left" >
+                <i class="fa fa-user-plus"> اضافة</i>
+            </a>
             @endpermission
-
-            @permission('roles-create')
-                <a  href="{{ route('roles.index') }}" style="display:inline-block; margin-left:1%" class="btn btn-primary btn-sm pull-left" >
-                    <i class="fa fa-user"> Permissions</i>
-                </a>
-            @endpermission
-
-
         </div>
         <div class="card-body">
             <table id="datatable" class="table table-bordered table-hover text-center">
-                <thead>
+                <thead class="text-danger">
                     <tr>
                         <th>الاسم</th>
                         <th>رقم الهاتف</th>
@@ -64,15 +39,15 @@
                             <td>{{ $u->company->name ?? '-' }}</td>
                             <td>
                                 {{-- @permission('users-read')
-                                    <a class="btn btn-info btn-xs" href="{{ route('users.show', $u->id) }}"><i class="fa fa-eye"></i> عرض </a>
+                                    <a class="btn btn-info btn-sm" href="{{ route('users.show', $u->id) }}"><i class="fa fa-eye"></i> عرض </a>
                                 @endpermission --}}
 
                                 @permission('users-update')
-                                    <a class="btn btn-warning btn-xs" href="{{ route('users.edit', $u->id) }}"><i class="fa fa-edit"></i> تعديل </a>
+                                    <a class="btn btn-warning btn-sm" href="{{ route('users.edit', $u->id) }}"><i class="fa fa-edit"></i> تعديل </a>
                                     <form style="display:inline-block" action="{{ route('users.update', $u->id) }}?type=status" method="post">
                                         @csrf 
                                         @method('PUT')
-                                        <button class="btn btn-{{ $u->status ? 'danger' : 'success' }} btn-xs" type="submit"><i class="fa fa-{{ $u->status ? 'times' : 'check' }}"></i> {{$u->status ? 'الغاء التفعيل' : 'تفعيل' }} </a>
+                                        <button class="btn btn-{{ $u->status ? 'danger' : 'success' }} btn-sm" type="submit"><i class="fa fa-{{ $u->status ? 'times' : 'check' }}"></i> {{$u->status ? 'الغاء التفعيل' : 'تفعيل' }} </a>
                                     </form>
                                 @endpermission
 
@@ -80,7 +55,7 @@
                                 <form style="display:inline-block;" action="{{ route('users.destroy', $u->id) }}?type=status" method="post">
                                     @csrf 
                                     @method('DELETE')
-                                    <button class="btn btn-danger btn-xs" style="margin:0 5px" type="submit"><i class="fa fa-edit"></i> حذف </a>
+                                    <button class="btn btn-danger btn-sm" style="margin:0 5px" type="submit"><i class="fa fa-edit"></i> حذف </a>
                                 </form>
                                 @endpermission
                             </td>
