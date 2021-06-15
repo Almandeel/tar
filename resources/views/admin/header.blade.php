@@ -78,15 +78,16 @@
             left: unset
         }
 
+        #ofBar {
+            display:none !important;
+        }
+
     </style>
 </head>
 
 <body class="">
     <!-- Extra details for Live View on GitHub Pages -->
     <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://wwwz.googletagmanager.com/ns.html?id=GTM-NKDMSK6" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe>
-    </noscript>
+    
     <!-- End Google Tag Manager (noscript) -->
     <div class="wrapper ">

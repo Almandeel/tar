@@ -25,17 +25,23 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                          <div class="col-md-6">
+                          <div class="col-md-4">
                             <div class="form-group">
                                 <label>الاسم</label>
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
                             </div>
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-4">
                               <div class="form-group">
                                   <label>رقم الهاتف</label>
                                   <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" required>
                               </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                                <label>البريد الالكتروني</label>
+                                <input type="email" class="form-control" name="email" value="{{ old('email') }}" >
+                            </div>
                           </div>
 						            </div>
 						            <div class="row">

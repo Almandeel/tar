@@ -26,11 +26,12 @@ class DashboardController extends Controller
             $search_order = Order::where('order_number', $request->order_id)->first();
         }
 
-        $order_default = Order::whereIn('status', [Order::ORDER_DEFAULT, order::ORDER_ACCEPTED])->count();
-        $order_in_road = Order::where('status', Order::ORDER_IN_ROAD)->count();
-        $order_done = Order::where('status', Order::ORDER_DONE)->count();
+        $new = Order::where('status', Order::ORDER_DEFAULT)->count();
+        $accepted = Order::where('status', Order::ORDER_ACCEPTED)->count();
+        $run = Order::whereIn('status', [Order::ORDER_IN_ROAD , Order::ORDER_IN_SHIPPING])->count();
+        $done = Order::where('status', Order::ORDER_DONE)->count();
         $users  = User::where('company_id', null)->count();
         $companies = Company::count();
-        return view('dashboard.index', compact('order_default', 'order_in_road', 'order_done', 'users', 'companies'));
+        return view('dashboard.index', compact('new', 'accepted', 'run', 'done', 'users', 'companies'));
     }
 }

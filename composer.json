@@ -17,6 +17,7 @@
         "niklasravnsborg/laravel-pdf": "^4.0",
         "pusher/pusher-php-server": "~4.0",
         "santigarcor/laratrust": "5.2.*",
+        "spatie/laravel-backup": "^6.16",
         "spatie/laravel-translatable": "^4.2",
         "tymon/jwt-auth": "^1.0"
     },

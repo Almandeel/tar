@@ -10,48 +10,33 @@
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card card-stats">
-                <div class="card-header card-header-warning card-header-icon">
+                <div class="card-header card-header-danger card-header-icon">
                     <div class="card-icon">
-                        <i class="material-icons">content_copy</i>
+                        <i class="material-icons">pending_actions</i>
+                        
                     </div>
-                    <p class="card-category">الطلبات الجديدة</p>
-                    <h3 class="card-title">10</h3>
+                    <p class="card-category"> الجديدة</p>
+                    <h3 class="card-title">{{ $new }}</h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">
-                        <a href="{{ route('orders.index') }}"><i class="material-icons">update</i> عرض</a>
+                        <a href="{{ route('orders.index') }}?status=new"><i class="material-icons">update</i> عرض</a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card card-stats">
-                <div class="card-header card-header-success card-header-icon">
+                <div class="card-header card-header-warning card-header-icon">
                     <div class="card-icon">
                         <i class="material-icons">store</i>
                     </div>
-                    <p class="card-category">الطلبات الموافق عليها</p>
-                    <h3 class="card-title">5</h3>
+                    <p class="card-category"> الموافق عليها</p>
+                    <h3 class="card-title">{{ $accepted }}</h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">
-                        <a href="{{ route('orders.index') }}"><i class="material-icons">update</i> عرض</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-                <div class="card-header card-header-danger card-header-icon">
-                    <div class="card-icon">
-                        <i class="material-icons">info_outline</i>
-                    </div>
-                    <p class="card-category">الطلبات الجارية</p>
-                    <h3 class="card-title">75</h3>
-                </div>
-                <div class="card-footer">
-                    <div class="stats">
-                        <a href="{{ route('orders.index') }}"><i class="material-icons">update</i> عرض</a>
+                        <a href="{{ route('orders.index') }}?status=accepted"><i class="material-icons">update</i> عرض</a>
                     </div>
                 </div>
             </div>
@@ -60,14 +45,30 @@
             <div class="card card-stats">
                 <div class="card-header card-header-info card-header-icon">
                     <div class="card-icon">
-                        <i class="fa fa-twitter"></i>
+                        <i class="material-icons">info_outline</i>
                     </div>
-                    <p class="card-category">الطلبات المكتملة</p>
-                    <h3 class="card-title">5</h3>
+                    <p class="card-category"> الجارية</p>
+                    <h3 class="card-title">{{ $run }}</h3>
                 </div>
                 <div class="card-footer">
                     <div class="stats">
-                        <a href="{{ route('orders.index') }}"><i class="material-icons">update</i> عرض</a>
+                        <a href="{{ route('orders.index') }}?status=run"><i class="material-icons">update</i> عرض</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-header card-header-success card-header-icon">
+                    <div class="card-icon">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <p class="card-category"> المكتملة</p>
+                    <h3 class="card-title">{{ $done }}</h3>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                        <a href="{{ route('orders.index') }}?status=done"><i class="material-icons">update</i> عرض</a>
                     </div>
                 </div>
             </div>

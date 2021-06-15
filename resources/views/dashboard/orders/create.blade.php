@@ -63,23 +63,25 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>منطقة الشحن</label>
-                            <select name="from" class="custom-select">
+                            <input type="text" name="from" class="form-control">
+                            {{-- <select name="from" class="custom-select">
                                 <option value="">منطقة الشحن</option>
                                 @foreach ($zones as $zone)
                                     <option value="{{ $zone->name }}">{{ $zone->name }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>منطقة التفريغ</label>
-                            <select name="to" class="custom-select">
+                            <input type="text" name="to" class="form-control">
+                            {{-- <select name="to" class="custom-select">
                                 <option value="">منطقة التفريغ</option>
                                 @foreach ($zones as $zone)
                                     <option value="{{ $zone->name }}">{{ $zone->name }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                         </div>
                     </div>
                     <div class="col-md-12">
